@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>AIWO - AI solutions for the disconnected</title>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+        <section class="container">
+            <sidebar class="sidebar">
+                <header><h1>AIWO</h1></header>
+
+				<div class="body">
+									<button id="newChatBtn" onclick="newChat()">+ New Chat</button>
+					<!--  <ul>
+                    <li>Chat 1</li>
+
+                    <li>Chat 2</li>
+                    <li>Chat 3</li>
+                </ul> -->
+			</div>
+				<footer>
+					<span>Settings</span>
+					<span>0.0.01</span></footer>
+            </sidebar>
+            <main class="main">
+                <div id="mainHeader">
+                    <select title="select model to use" name="modelSelect" id="modelSelect">
+                        <option value="gemma:2b">Gemma 2B</option>
+                        <option value="tinyllama">tinyLLama</option>
+                    </select>
+                </div>
+                <div id="chatWrapper">
+                <div id="chat"></div>
+                <div id="inputArea">
+                    <input
+                        type="text"
+                        id="prompt"
+                        placeholder="Type your message..."
+                        onkeydown="if(event.key==='Enter'){sendMessage();}"
+                    />
+                    <button id="send" onclick="sendMessage()">Send</button>
+                    <button id="stop" onclick="stop()">Stop</button>
+
+
+				</div>
+
+</div>
+            <main>
+        </section>
+		<script src="./js/marked.min.js"></script>
+	<script src="./js/script.js"></script>
+	</body>
+</html>
