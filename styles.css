@@ -78,8 +78,10 @@ body {
 .main {
 	display: flex;
 	flex-direction: column;
-	flex: 1;
-	overflow-y: auto;
+	flex: 1 1 auto;
+	/* reserve space for the fixed header so content doesn't sit under it */
+	/* padding-top: 70px; */
+	min-height: 0; /* allow children to shrink for proper flex scrolling */
 }
 
 #mainHeader {
@@ -97,20 +99,26 @@ body {
 }
 
 #chatWrapper {
-	height: 100vh;
+	/* Make wrapper flexible inside .main (which reserves header space) */
+	flex: 1 1 auto;
 	width: 100%;
-	margin: 70px auto 20px auto;
+	margin: 0 auto 20px auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	padding: 0 15px;
 	box-sizing: border-box;
+	min-height: 0; /* enable child overflow to work correctly inside flex */
 }
 
 #chat {
-	flex: auto;
+	flex: 1 1 auto;
 	width: 100%;
 	padding: 10px 0;
+	overflow-y: auto; /* scroll messages */
+	-webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+	/* leave extra space at the bottom so the last message isn't hidden by the input */
+	padding-bottom: 90px;
 }
 
 .msg {
@@ -140,8 +148,18 @@ body {
 	border: 1px solid #ccc;
 	border-radius: 9999px;
 	padding: 8px 10px;
-	position: static;
-	bottom: 0;
+	/* keep input visible at the bottom of the viewport (keyboard-safe on mobile) */
+	position: sticky;
+	bottom: env(safe-area-inset-bottom, 0);
+	z-index: 1100;
+	background: rgba(
+		246,
+		248,
+		250,
+		0.95
+	); /* slight opaque background so input sits above messages */
+	-webkit-backdrop-filter: blur(4px);
+	backdrop-filter: blur(4px);
 	box-sizing: border-box;
 }
 
@@ -225,9 +243,9 @@ body.sidebar-open {
 
 /* Modern Select Styling */
 #modelSelect {
-	appearance: none;
-	-webkit-appearance: none;
 	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
 	background-color: #ffffff;
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
 	background-repeat: no-repeat;
